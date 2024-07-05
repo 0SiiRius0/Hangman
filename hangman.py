@@ -3,7 +3,6 @@ wrongLetters=0
 correctLetters=[]
 guess=None
 guessedWords=[]
-j=1
 with open("words.txt") as words:
     words=list(words.read().split())
 hangman=[
@@ -60,7 +59,7 @@ hangman=[
 word=choice(words)
 print(hangman[0])
 underscores=["_" for i in range(len(word))]
-print("".join(underscores))
+print("".join(underscores), word)
 while not guess==word:
     guess = input("\033[mGuess a word ")
     if guess in guessedWords:
@@ -74,11 +73,11 @@ while not guess==word:
                 if bool(set(list(guess))&set(list(word))):
                     correctLetters+=list((set(list(guess))&set(list(word))))
                 else:
-                    print(hangman[j])
-                    j+=1
+                    print(hangman[wrongLetters+1])
+                    wrongLetters+=1
         else:
             print("\033[0;31;49mInvalid Word. Please check your spelling. \n")
-        if wrongLetters==6:
+    if wrongLetters==6:
             exit("Game over")
     underscores = "".join([i if i in correctLetters else '_' for i in word])
     if "_" not in underscores:
